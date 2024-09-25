@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ajout emp</title>
+    <meta name="viewport" content="width=device-width,
+      initial-scale=1.0"/>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <style>
+	*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+	text-decoration: none;
+    font-family: sans-serif;
+}
+
+body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: url(bg-image.jpg);
+    background-size: cover;
+    background-color: #fdfdfd;
+
+	
+}
+
+.container{
+    width: 100%;
+    max-width: 650px;
+    background: #5670be;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius: 10px;
+    
+}
+
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    
+    border-bottom: solid 1px white;
+}
+
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.user-input-box:nth-child(2n){
+    justify-content: end;
+}
+
+.user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+.user-input-box label{
+    width: 95%;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 5px 0;
+}
+
+.user-input-box input{
+    height: 40px;
+    width: 95%;
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid #00ccff;
+    padding: 0 10px;
+}
+
+.gender-title{
+    color:white;
+    font-size: 24px;
+    font-weight: 600;
+    border-bottom: 1px solid white;
+}
+
+.gender-category{
+    margin: 15px 0;
+    color: white;
+}
+
+.gender-category label{
+    padding: 0 20px 0 5px;
+}
+
+.gender-category label,
+.gender-category input,
+.form-submit-btn input{
+    cursor: pointer;
+}
+
+.form-submit-btn{
+    margin-top: 40px;
+}
+
+.form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(156, 231, 245);
+    background: #0c2ce0;
+}
+
+.form-submit-btn input:hover{
+   
+    color: rgb(255, 255, 255);
+}
+.floating-btn {
+	border-radius: 26.5px;
+	background-color: #8e44ad;
+	border: 1px solid #00ccff;
+	box-shadow: 0 16px 22px -17px #00ccff;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 12px 20px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #ffffff;
+	color: #8e44ad;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+@media(max-width: 600px){
+    .container{
+        min-width: 280px;
+    }
+
+    .user-input-box{
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .user-input-box:nth-child(2n){
+        justify-content: space-between;
+    }
+
+    .gender-category{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .main-user-info{
+        max-height: 380px;
+        overflow: auto;
+    }
+
+    .main-user-info::-webkit-scrollbar{
+        width: 0;
+    }
+}
+  </style>
+  <body>
+    <div class="container">
+      <h1 class="form-title">Ajouter Employé</h1>
+      <form id="form" class="form" method="POST" action="">
+		{% csrf_token %}
+        <div class="main-user-info">
+          <div class="user-input-box">
+            <label for="fullName">Nom</label>
+            <input type="text"
+                    id="fullName"
+                    name="nom"
+                    placeholder="Entrer Un Nom "/>
+          </div>
+          <div class="user-input-box">
+            <label for="username">Prénom</label>
+            <input type="text"
+                    id="username"
+                    name="prenom"
+                    placeholder="Entrer Un Prénom"/>
+          </div>
+          <div class="user-input-box">
+            <label for="email">Email</label>
+            <input type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Entrer Un Email"/>
+          </div>
+          <div class="user-input-box">
+            <label for="password">Mot De Passe</label>
+            <input type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Un mot_de_passe"/>
+          </div>
+        </div>
+        <div class="gender-details-box">
+          <span class="gender-title">Service</span>
+          <div class="gender-category">
+            <select style="width: auto; font-family: 'Segoe UI ', Tahoma, Geneva, Verdana, sans-serif;" name="service">
+                <option>Service Informatique & Information</option>
+                <option>Service Communication & Coopération</option>
+                <option>Service Programmation & Financement</option>
+                <option>Service Gestion du Domaine Public Hydraulique </option>
+                <option>Service Affaires Juridiques & Contentieux </option>
+                <option>Service Aides & Redevances </option>
+                <option>Service Suivi & Evaluation des RE </option>
+                <option>Service Planification des Ressources en Eau & Etudes </option>
+                <option>Service Travaux & Aménagements Hydrauliques </option>
+                <option>Service Gestion & Développement des RE </option>
+                <option>Service Qualité de l'Eau </option>
+            </select>
+          </div>
+          <div class="user-input-box">
+            <label for="">Role</label>
+            <input type="text"
+                    id=""
+                    name="role"
+                    placeholder="Entrer role" value="{{employe.role}}"/>
+          </div>
+        </div>
+        <div class="form-submit-btn">
+          <input type="submit" value="Enregistrer">
+        </div>
+      </form>
+    </div>
+	<button class="floating-btn">
+		<a href="{% url 'perform_logout' %}" style="color: #fdfdfd;">Déconnexion</a>
+  {% if error == "no" %}
+  <script>
+    alert('good');
+    window.location = ("{% url 'emp_login' %}");
+</script>
+{% endif %}
+{% if error == "yes" %}
+<script>
+    alert('try');
+</script>
+{% endif %}
+    </body>
+</html>

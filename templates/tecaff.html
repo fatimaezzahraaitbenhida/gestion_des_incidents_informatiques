@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+ <title>Table layout</title>
+
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+*{
+ margin:0;
+ padding: 0;
+ outline: 0;
+ text-decoration: none;
+}
+.filter{
+ position: absolute;
+ left: 0;
+ top: 0;
+ bottom: 0;
+ right: 0;
+ z-index: 1;
+ background: #f5f5f7;
+background: -moz-linear-gradient(90deg, #f5f5f7 0%, #f5f5f7 100%);
+background: -webkit-linear-gradient(90deg, #f5f5f7 0%, #f5f5f7 100%);
+background: linear-gradient(90deg, #f5f5f7 0%, #f5f5f7 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e94ca1",endColorstr="#c74ae9",GradientType=1);
+opacity: .7;
+}
+.floating-btn {
+	border-radius: 26.5px;
+	background-color: #8e44ad;
+	border: 1px solid #f3f6f7;
+	box-shadow: 0 16px 22px -17px #00ccff;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 12px 20px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #9952b8;
+	color: #e9ecf1;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+table{
+ position: absolute;
+ z-index: 2;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%,-50%);
+ width: 60%; 
+ border-collapse: collapse;
+ border-spacing: 0;
+ box-shadow: 0 2px 15px rgba(64,64,64,.7);
+ border-radius: 12px 12px 0 0;
+ overflow: hidden;
+
+}
+td , th{
+ padding: 15px 20px;
+ text-align: center;
+ 
+
+}
+th{
+ background-color: #5670be;
+ color: #fafafa;
+ font-family: 'Open Sans',Sans-serif;
+ font-weight: 200;
+ text-transform: uppercase;
+
+}
+tr{
+ width: 100%;
+ background-color: #fafafa;
+ font-family: 'Montserrat', sans-serif;
+}
+tr:nth-child(even){
+ background-color: #eeeeee;
+}
+</style>
+<body>
+
+
+  <div class="filter">
+
+ </div>
+
+ <table >
+
+ 
+
+ <tr>
+
+ <th>Id</th>
+
+ <th>Email</th>
+
+ <th>Description</th>
+
+ <th>Date de Déclaration </th>
+
+ <th>Type</th>
+
+ <th >Statut</th>
+
+ <th style="background-color: #ee0cd0;"colspan="2" >Réponse</th>
+
+ </tr>
+
+ {% for incident in incidents %}
+ <tr>
+     <td>{{ incident.id }}</td>
+     <td>{{ incident.user }}</td>
+     <td>{{ incident.description }}</td>
+     <td>{{ incident.dateDeclaration }}</td>
+     <td>{{ incident.type }}</td>
+    <td>{{ incident.statut }}</td> 
+    <td >
+        <select id="statut-{{ incident.id }}" class="statut-select">
+            {% for statut in incident.STATUT_CHOICES %}
+                <option value="{{ statut.0 }}" {% if statut.0 == incident.statut %}selected{% endif %}>
+                    {{ statut.1 }}
+                </option>
+            {% endfor %}
+        </select>
+    </td>
+    <td><button style="background-color: #ee0cd0; padding: 5px;" href="" >Valider</button></td>
+      </tr>
+ {% endfor %}
+ 
+
+ </table>
+
+ 
+ <button class="floating-btn">
+    <a href="{% url 'perform_logout' %}" style="color: #fafafa;">Déconnexion</a></button>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectElements = document.querySelectorAll(".statut-select");
+        selectElements.forEach(select => {
+            select.addEventListener("change", function () {
+                const incidentId = this.id.split("-")[1];
+                const selectedStatut = this.value;
+                
+                // Perform an AJAX request to update the statut
+                fetch(`/update_statut/${incidentId}/${selectedStatut}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the UI or show a message if needed
+                    })
+                    .catch(error => {
+                        console.error("Error updating statut:", error);
+                    });
+            });
+        });
+    });
+</script>
+ </body>
+
+</html>
